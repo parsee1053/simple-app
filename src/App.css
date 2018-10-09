@@ -12,3 +12,11 @@
   word-wrap: break-word;
   white-space: pre-line;
 }
+
+.Button {
+  width: 100px;
+}
+
+.Textarea {
+  min-height: 200px;
+}

@@ -146,7 +146,7 @@ class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Navbar.Form pullLeft>
-              <Button bsStyle="primary" onClick={this.showAddModal}>追加</Button>
+              <Button className="Button" bsStyle="primary" onClick={this.showAddModal}><i class="fas fa-plus"></i> 追加</Button>
             </Navbar.Form>
             <Navbar.Form pullRight>
               <FormControl type="text" placeholder="検索" onFocus={this.startSearch} onChange={this.search} onBlur={this.endSearch} />
@@ -164,8 +164,8 @@ class App extends Component {
                   {item.content}
                   <hr />
                   <ButtonToolbar>
-                    <Button bsStyle="primary" onClick={this.showEditModal.bind(this, index)}>編集</Button>
-                    <Button bsStyle="danger" onClick={this.deleteItem.bind(this, index)}>削除</Button>
+                    <Button className="Button" bsStyle="primary" onClick={this.showEditModal.bind(this, index)}><i class="fas fa-edit"></i> 編集</Button>
+                    <Button className="Button" bsStyle="danger" onClick={this.deleteItem.bind(this, index)}><i class="fas fa-trash-alt"></i> 削除</Button>
                   </ButtonToolbar>
                 </Panel.Body>
               </Panel>
@@ -183,13 +183,13 @@ class App extends Component {
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>内容</ControlLabel>
-                  <FormControl componentClass="textarea" id="AddTextareaContent" />
+                  <FormControl className="Textarea" componentClass="textarea" id="AddTextareaContent" />
                 </FormGroup>
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeAddModal}>キャンセル</Button>
-              <Button bsStyle="primary" onClick={this.addItem}>追加</Button>
+              <Button className="Button" onClick={this.closeAddModal}>キャンセル</Button>
+              <Button className="Button" bsStyle="primary" onClick={this.addItem}>OK</Button>
             </Modal.Footer>
           </Modal>
           <Modal show={this.state.editModal} onHide={this.closeEditModal}>
@@ -204,13 +204,13 @@ class App extends Component {
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>内容</ControlLabel>
-                  <FormControl componentClass="textarea" id="EditTextareaContent" defaultValue={this.state.editModal && this.state.items[this.state.index].content} />
+                  <FormControl className="Textarea" componentClass="textarea" id="EditTextareaContent" defaultValue={this.state.editModal && this.state.items[this.state.index].content} />
                 </FormGroup>
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeEditModal}>キャンセル</Button>
-              <Button bsStyle="primary" onClick={this.editItem}>保存</Button>
+              <Button className="Button" onClick={this.closeEditModal}>キャンセル</Button>
+              <Button className="Button" bsStyle="primary" onClick={this.editItem}>OK</Button>
             </Modal.Footer>
           </Modal>
         </div>
