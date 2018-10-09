@@ -16,13 +16,17 @@ class App extends Component {
       items: props.initialItems,
       addModal: false,
       editModal: false,
-      index: null
+      index: null,
+      preSearchItems: null
     };
     this.showAddModal = this.showAddModal.bind(this);
     this.closeAddModal = this.closeAddModal.bind(this);
     this.addItem = this.addItem.bind(this);
     this.closeEditModal = this.closeEditModal.bind(this);
     this.editItem = this.editItem.bind(this);
+    this.startSearch = this.startSearch.bind(this);
+    this.search = this.search.bind(this);
+    this.endSearch = this.endSearch.bind(this);
   }
 
   showAddModal() {
@@ -106,6 +110,32 @@ class App extends Component {
     }
   }
 
+  startSearch(e) {
+    this.setState({ preSearchItems: this.state.items });
+    if (e.target.value.length > 0) {
+      this.search(e);
+    }
+  }
+
+  search(e) {
+    const value = e.target.value.trim();
+    if (!value) {
+      this.endSearch();
+      return;
+    }
+    const filterItems = this.state.preSearchItems.filter((item) => {
+      if (item.title.indexOf(value) > -1 || item.content.indexOf(value) > -1) {
+        return true;
+      }
+      return false;
+    });
+    this.setState({ items: filterItems });
+  }
+
+  endSearch() {
+    this.setState({ items: this.state.preSearchItems });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -115,8 +145,11 @@ class App extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Navbar.Form pullRight>
+            <Navbar.Form pullLeft>
               <Button bsStyle="primary" onClick={this.showAddModal}>追加</Button>
+            </Navbar.Form>
+            <Navbar.Form pullRight>
+              <FormControl type="text" placeholder="検索" onFocus={this.startSearch} onChange={this.search} onBlur={this.endSearch} />
             </Navbar.Form>
           </Navbar.Collapse>
         </Navbar>
