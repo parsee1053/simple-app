@@ -146,7 +146,7 @@ class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Navbar.Form pullLeft>
-              <Button className="Button" bsStyle="primary" onClick={this.showAddModal}><i class="fas fa-plus"></i> 追加</Button>
+              <Button className="Button" bsStyle="primary" onClick={this.showAddModal}><i className="fas fa-plus"></i> 追加</Button>
             </Navbar.Form>
             <Navbar.Form pullRight>
               <FormControl type="text" placeholder="検索" onFocus={this.startSearch} onChange={this.search} onBlur={this.endSearch} />
@@ -164,8 +164,8 @@ class App extends Component {
                   {item.content}
                   <hr />
                   <ButtonToolbar>
-                    <Button className="Button" bsStyle="primary" onClick={this.showEditModal.bind(this, index)}><i class="fas fa-edit"></i> 編集</Button>
-                    <Button className="Button" bsStyle="danger" onClick={this.deleteItem.bind(this, index)}><i class="fas fa-trash-alt"></i> 削除</Button>
+                    <Button className="Button" bsStyle="primary" onClick={this.showEditModal.bind(this, index)}><i className="fas fa-edit"></i> 編集</Button>
+                    <Button className="Button" bsStyle="danger" onClick={this.deleteItem.bind(this, index)}><i className="fas fa-trash-alt"></i> 削除</Button>
                   </ButtonToolbar>
                 </Panel.Body>
               </Panel>
