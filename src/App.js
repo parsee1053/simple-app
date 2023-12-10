@@ -28,16 +28,7 @@ export default function App(props) {
     const currentItems = Array.from(items);
     const title = document.getElementById("AddInputTitle").value.trim();
     const content = document.getElementById("AddTextareaContent").value.trim();
-    if (title.length <= 0 && content.length <= 0) {
-      alert("タイトルと内容を入力してください．");
-      return;
-    }
-    if (title.length <= 0) {
-      alert("タイトルを入力してください．");
-      return;
-    }
-    if (content.length <= 0) {
-      alert("内容を入力してください．");
+    if (!validateItem(title, content)) {
       return;
     }
     currentItems.push({
@@ -63,16 +54,7 @@ export default function App(props) {
     const currentItems = Array.from(items);
     const title = document.getElementById("EditInputTitle").value.trim();
     const content = document.getElementById("EditTextareaContent").value.trim();
-    if (title.length <= 0 && content.length <= 0) {
-      alert("タイトルと内容を入力してください．");
-      return;
-    }
-    if (title.length <= 0) {
-      alert("タイトルを入力してください．");
-      return;
-    }
-    if (content.length <= 0) {
-      alert("内容を入力してください．");
+    if (!validateItem(title, content)) {
       return;
     }
     currentItems[index] = {
@@ -117,6 +99,23 @@ export default function App(props) {
 
   function endSearch() {
     setItems(preSearchItems);
+  }
+
+  function validateItem(title, content) {
+    if (title.length <= 0 && content.length <= 0) {
+      alert("タイトルと内容を入力してください．");
+      return false;
+    }
+    if (title.length <= 0) {
+      alert("タイトルを入力してください．");
+      return false;
+    }
+    if (content.length <= 0) {
+      alert("内容を入力してください．");
+      return false;
+    }
+
+    return true;
   }
 
   return (
