@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import Panel from 'react-bootstrap/lib/Panel';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 import AddModal from './components/AddModal';
 import EditModal from './components/EditModal';
@@ -120,36 +121,58 @@ export default function App(props) {
 
   return (
     <>
-      <Navbar fixedTop>
-        <Navbar.Header>
+      <Navbar collapseOnSelect sticky="top" className="bg-body-secondary">
+        <Container>
           <Navbar.Brand>Simple App</Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Navbar.Form pullLeft>
-            <Button className="Button" bsStyle="primary" onClick={() => showAddModal()}><i className="fas fa-plus"></i> 追加</Button>
-          </Navbar.Form>
-          <Navbar.Form pullRight>
-            <FormControl type="text" placeholder="検索" onFocus={(e) => startSearch(e)} onChange={(e) => search(e)} onBlur={() => endSearch()} />
-          </Navbar.Form>
-        </Navbar.Collapse>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Button
+                className="Button"
+                variant="primary"
+                onClick={() => showAddModal()}
+              >
+                <i className="fas fa-plus me-2"></i>
+                追加
+              </Button>
+            </Nav>
+            <Form>
+              <Form.Control
+                type="text"
+                placeholder="検索"
+                onFocus={(e) => startSearch(e)}
+                onChange={(e) => search(e)}
+                onBlur={() => endSearch()}
+              />
+            </Form>
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
-      <div className="container PanelContainer">
+      <Container>
         {items.map((item, index) => {
           return (
-            <Panel className="center-block" key={index}>
-              <Panel.Heading>
-                <Panel.Title className="PanelTitle">{item.title}</Panel.Title>
-              </Panel.Heading>
-              <Panel.Body className="PanelBody">
-                {item.content}
-                <hr />
-                <ButtonToolbar>
-                  <Button className="Button" bsStyle="primary" onClick={() => showEditModal(index)}><i className="fas fa-edit"></i> 編集</Button>
-                  <Button className="Button" bsStyle="danger" onClick={() => deleteItem(index)}><i className="fas fa-trash-alt"></i> 削除</Button>
-                </ButtonToolbar>
-              </Panel.Body>
-            </Panel>
+            <Card className="my-3" key={index}>
+              <Card.Header as="h3">{item.title}</Card.Header>
+              <Card.Body className="CardBody">{item.content}</Card.Body>
+              <Card.Footer>
+                <Button
+                  className="Button me-2"
+                  variant="primary"
+                  onClick={() => showEditModal(index)}
+                >
+                  <i className="fas fa-edit me-2"></i>
+                  編集
+                </Button>
+                <Button
+                  className="Button"
+                  variant="danger"
+                  onClick={() => deleteItem(index)}
+                >
+                  <i className="fas fa-trash-alt me-2"></i>
+                  削除
+                </Button>
+              </Card.Footer>
+            </Card>
           );
         })}
         <AddModal
@@ -163,7 +186,7 @@ export default function App(props) {
           closeEditModal={() => closeEditModal()}
           editItem={() => editItem(index)}
         />
-      </div>
+      </Container>
     </>
   );
 }

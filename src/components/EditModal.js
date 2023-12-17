@@ -1,31 +1,52 @@
-import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
-import Modal from 'react-bootstrap/lib/Modal';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 export default function EditModal({ isShow, item, closeEditModal, editItem }) {
   return (
-    <Modal show={isShow} onHide={closeEditModal}>
+    <Modal
+      show={isShow}
+      onHide={closeEditModal}
+    >
       <Modal.Header closeButton>
         <Modal.Title>項目を編集</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form className="center-block">
-          <FormGroup>
-            <ControlLabel>タイトル</ControlLabel>
-            <FormControl type="text" id="EditInputTitle" defaultValue={isShow && item.title} />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>内容</ControlLabel>
-            <FormControl className="Textarea" componentClass="textarea" id="EditTextareaContent" defaultValue={isShow && item.content} />
-          </FormGroup>
-        </form>
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>タイトル</Form.Label>
+            <Form.Control
+              type="text"
+              id="EditInputTitle"
+              defaultValue={isShow && item.title}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>内容</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              id="EditTextareaContent"
+              defaultValue={isShow && item.content}
+            />
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="Button" onClick={closeEditModal}>キャンセル</Button>
-        <Button className="Button" bsStyle="primary" onClick={editItem}>OK</Button>
+        <Button
+          className="Button"
+          variant="secondary"
+          onClick={closeEditModal}
+        >
+          キャンセル
+        </Button>
+        <Button
+          className="Button"
+          variant="primary"
+          onClick={editItem}
+        >
+          OK
+        </Button>
       </Modal.Footer>
     </Modal>
   );
