@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import './App.css';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 
 import AddModal from './components/AddModal';
+import AppNavbar from './components/AppNavbar';
 import EditModal from './components/EditModal';
 import ItemCard from './components/ItemCard';
 
@@ -121,33 +118,12 @@ export default function App(props) {
 
   return (
     <>
-      <Navbar collapseOnSelect sticky="top" className="bg-body-secondary">
-        <Container>
-          <Navbar.Brand>Simple App</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Button
-                className="Button"
-                variant="primary"
-                onClick={() => showAddModal()}
-              >
-                <i className="fas fa-plus me-2"></i>
-                追加
-              </Button>
-            </Nav>
-            <Form>
-              <Form.Control
-                type="text"
-                placeholder="検索"
-                onFocus={(e) => startSearch(e)}
-                onChange={(e) => search(e)}
-                onBlur={() => endSearch()}
-              />
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <AppNavbar
+        showAddModal={() => showAddModal()}
+        startSearch={(e) => startSearch(e)}
+        search={(e) => search(e)}
+        endSearch={() => endSearch()}
+      />
       <Container>
         {items.map((item, index) =>
           <ItemCard
