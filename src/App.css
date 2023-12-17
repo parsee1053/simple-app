@@ -1,22 +1,7 @@
-.PanelContainer {
-  margin-top: 80px;
-}
-
-.PanelTitle {
-  font-size: 30px;
-  word-wrap: break-word;
-}
-
-.PanelBody {
-  font-size: 20px;
-  word-wrap: break-word;
+.CardBody {
   white-space: pre-line;
 }
 
 .Button {
-  width: 100px;
-}
-
-.Textarea {
-  min-height: 200px;
+  width: 120px;
 }

@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import Panel from 'react-bootstrap/lib/Panel';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import Container from 'react-bootstrap/Container';
 
 import AddModal from './components/AddModal';
+import AppNavbar from './components/AppNavbar';
 import EditModal from './components/EditModal';
+import ItemCard from './components/ItemCard';
 
 export default function App(props) {
   const [items, setItems] = useState(props.initialItems);
@@ -120,38 +118,21 @@ export default function App(props) {
 
   return (
     <>
-      <Navbar fixedTop>
-        <Navbar.Header>
-          <Navbar.Brand>Simple App</Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Navbar.Form pullLeft>
-            <Button className="Button" bsStyle="primary" onClick={() => showAddModal()}><i className="fas fa-plus"></i> 追加</Button>
-          </Navbar.Form>
-          <Navbar.Form pullRight>
-            <FormControl type="text" placeholder="検索" onFocus={(e) => startSearch(e)} onChange={(e) => search(e)} onBlur={() => endSearch()} />
-          </Navbar.Form>
-        </Navbar.Collapse>
-      </Navbar>
-      <div className="container PanelContainer">
-        {items.map((item, index) => {
-          return (
-            <Panel className="center-block" key={index}>
-              <Panel.Heading>
-                <Panel.Title className="PanelTitle">{item.title}</Panel.Title>
-              </Panel.Heading>
-              <Panel.Body className="PanelBody">
-                {item.content}
-                <hr />
-                <ButtonToolbar>
-                  <Button className="Button" bsStyle="primary" onClick={() => showEditModal(index)}><i className="fas fa-edit"></i> 編集</Button>
-                  <Button className="Button" bsStyle="danger" onClick={() => deleteItem(index)}><i className="fas fa-trash-alt"></i> 削除</Button>
-                </ButtonToolbar>
-              </Panel.Body>
-            </Panel>
-          );
-        })}
+      <AppNavbar
+        showAddModal={() => showAddModal()}
+        startSearch={(e) => startSearch(e)}
+        search={(e) => search(e)}
+        endSearch={() => endSearch()}
+      />
+      <Container>
+        {items.map((item, index) =>
+          <ItemCard
+            key={index}
+            item={item}
+            showEditModal={() => showEditModal(index)}
+            deleteItem={() => deleteItem(index)}
+          />
+        )}
         <AddModal
           isShow={addModal}
           closeAddModal={() => closeAddModal()}
@@ -163,7 +144,7 @@ export default function App(props) {
           closeEditModal={() => closeEditModal()}
           editItem={() => editItem(index)}
         />
-      </div>
+      </Container>
     </>
   );
 }
