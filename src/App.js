@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -9,6 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import AddModal from './components/AddModal';
 import EditModal from './components/EditModal';
+import ItemCard from './components/ItemCard';
 
 export default function App(props) {
   const [items, setItems] = useState(props.initialItems);
@@ -149,32 +149,14 @@ export default function App(props) {
         </Container>
       </Navbar>
       <Container>
-        {items.map((item, index) => {
-          return (
-            <Card className="my-3" key={index}>
-              <Card.Header as="h3">{item.title}</Card.Header>
-              <Card.Body className="CardBody">{item.content}</Card.Body>
-              <Card.Footer>
-                <Button
-                  className="Button me-2"
-                  variant="primary"
-                  onClick={() => showEditModal(index)}
-                >
-                  <i className="fas fa-edit me-2"></i>
-                  編集
-                </Button>
-                <Button
-                  className="Button"
-                  variant="danger"
-                  onClick={() => deleteItem(index)}
-                >
-                  <i className="fas fa-trash-alt me-2"></i>
-                  削除
-                </Button>
-              </Card.Footer>
-            </Card>
-          );
-        })}
+        {items.map((item, index) =>
+          <ItemCard
+            key={index}
+            item={item}
+            showEditModal={() => showEditModal(index)}
+            deleteItem={() => deleteItem(index)}
+          />
+        )}
         <AddModal
           isShow={addModal}
           closeAddModal={() => closeAddModal()}
