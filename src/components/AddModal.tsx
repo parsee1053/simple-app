@@ -1,15 +1,22 @@
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-export default function EditModal({ isShow, item, closeEditModal, editItem }) {
+interface AddModalProps {
+  isShow: boolean
+  handleCloseAddModal: () => void
+  handleAddItem: () => void
+}
+
+export default function AddModal({ isShow, handleCloseAddModal, handleAddItem }: AddModalProps) {
   return (
     <Modal
       show={isShow}
-      onHide={closeEditModal}
+      onHide={handleCloseAddModal}
     >
       <Modal.Header closeButton>
-        <Modal.Title>項目を編集</Modal.Title>
+        <Modal.Title>項目を追加</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -17,8 +24,7 @@ export default function EditModal({ isShow, item, closeEditModal, editItem }) {
             <Form.Label>タイトル</Form.Label>
             <Form.Control
               type="text"
-              id="EditInputTitle"
-              defaultValue={isShow && item.title}
+              id="AddInputTitle"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -26,8 +32,7 @@ export default function EditModal({ isShow, item, closeEditModal, editItem }) {
             <Form.Control
               as="textarea"
               rows={3}
-              id="EditTextareaContent"
-              defaultValue={isShow && item.content}
+              id="AddTextareaContent"
             />
           </Form.Group>
         </Form>
@@ -36,14 +41,14 @@ export default function EditModal({ isShow, item, closeEditModal, editItem }) {
         <Button
           className="Button"
           variant="secondary"
-          onClick={closeEditModal}
+          onClick={handleCloseAddModal}
         >
           キャンセル
         </Button>
         <Button
           className="Button"
           variant="primary"
-          onClick={editItem}
+          onClick={handleAddItem}
         >
           OK
         </Button>

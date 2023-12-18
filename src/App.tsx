@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
 
@@ -7,25 +7,31 @@ import AppNavbar from './components/AppNavbar';
 import EditModal from './components/EditModal';
 import ItemCard from './components/ItemCard';
 
-export default function App(props) {
-  const [items, setItems] = useState(props.initialItems);
+import type { Item } from './types/item';
+
+interface AppProps {
+  initialItems: Item[];
+}
+
+export default function App({ initialItems }: AppProps) {
+  const [items, setItems] = useState<Item[]>(initialItems);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [index, setIndex] = useState(null);
-  const [preSearchItems, setPreSearchItems] = useState(null);
+  const [itemIndex, setItemIndex] = useState(-1);
+  const [preSearchItems, setPreSearchItems] = useState<Item[]>([]);
 
-  function showAddModal() {
+  function handleShowAddModal() {
     setAddModal(true);
   }
 
-  function closeAddModal() {
+  function handleCloseAddModal() {
     setAddModal(false);
   }
 
-  function addItem() {
+  function handleAddItem() {
     const currentItems = Array.from(items);
-    const title = document.getElementById("AddInputTitle").value.trim();
-    const content = document.getElementById("AddTextareaContent").value.trim();
+    const title = (document.getElementById("AddInputTitle") as HTMLInputElement).value.trim();
+    const content = (document.getElementById("AddTextareaContent") as HTMLTextAreaElement).value.trim();
     if (!validateItem(title, content)) {
       return;
     }
@@ -34,56 +40,57 @@ export default function App(props) {
       content: content
     });
     setItems(currentItems);
-    closeAddModal();
+    setAddModal(false);
     localStorage.setItem("simple-app-items", JSON.stringify(currentItems)); // localStorageに保存
   }
 
-  function showEditModal(index) {
+  function handleShowEditModal(itemIndex: number) {
     setEditModal(true);
-    setIndex(index);
+    setItemIndex(itemIndex);
   }
 
-  function closeEditModal() {
+  function handleCloseEditModal() {
     setEditModal(false);
-    setIndex(null);
+    setItemIndex(-1);
   }
 
-  function editItem() {
+  function handleEditItem() {
     const currentItems = Array.from(items);
-    const title = document.getElementById("EditInputTitle").value.trim();
-    const content = document.getElementById("EditTextareaContent").value.trim();
+    const title = (document.getElementById("EditInputTitle") as HTMLInputElement).value.trim();
+    const content = (document.getElementById("EditTextareaContent") as HTMLTextAreaElement).value.trim();
     if (!validateItem(title, content)) {
       return;
     }
-    currentItems[index] = {
+    currentItems[itemIndex] = {
       title: title,
       content: content
     };
     setItems(currentItems);
-    closeEditModal();
+    setEditModal(false);
+    setItemIndex(-1);
     localStorage.setItem("simple-app-items", JSON.stringify(currentItems)); // localStorageに保存
   }
 
-  function deleteItem(index) {
-    if (window.confirm(`「${items[index].title}」を削除してもよろしいですか？`)) {
+  function handleDeleteItem(itemIndex: number) {
+    if (window.confirm(`「${items[itemIndex].title}」を削除してもよろしいですか？`)) {
       const currentItems = Array.from(items);
-      currentItems.splice(index, 1);
+      currentItems.splice(itemIndex, 1);
       setItems(currentItems);
       localStorage.setItem("simple-app-items", JSON.stringify(currentItems)); // localStorageに保存
     }
   }
 
-  function startSearch(e) {
+  function handleStartSearch(e: React.FocusEvent<HTMLInputElement>) {
     setPreSearchItems(items);
     if (e.target.value.length > 0) {
-      search(e);
+      handleSearch(e);
     }
   }
 
-  function search(e) {
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value.trim();
     if (!value) {
-      endSearch();
+      handleEndSearch();
       return;
     }
     const filterItems = preSearchItems.filter((item) => {
@@ -95,11 +102,11 @@ export default function App(props) {
     setItems(filterItems);
   }
 
-  function endSearch() {
+  function handleEndSearch() {
     setItems(preSearchItems);
   }
 
-  function validateItem(title, content) {
+  function validateItem(title: string, content: string) {
     if (title.length <= 0 && content.length <= 0) {
       alert("タイトルと内容を入力してください．");
       return false;
@@ -119,30 +126,30 @@ export default function App(props) {
   return (
     <>
       <AppNavbar
-        showAddModal={() => showAddModal()}
-        startSearch={(e) => startSearch(e)}
-        search={(e) => search(e)}
-        endSearch={() => endSearch()}
+        handleShowAddModal={handleShowAddModal}
+        handleStartSearch={handleStartSearch}
+        handleSearch={handleSearch}
+        handleEndSearch={handleEndSearch}
       />
       <Container>
-        {items.map((item, index) =>
+        {Object.values(items).map((item, index) =>
           <ItemCard
             key={index}
             item={item}
-            showEditModal={() => showEditModal(index)}
-            deleteItem={() => deleteItem(index)}
+            handleShowEditModal={() => handleShowEditModal(index)}
+            handleDeleteItem={() => handleDeleteItem(index)}
           />
         )}
         <AddModal
           isShow={addModal}
-          closeAddModal={() => closeAddModal()}
-          addItem={() => addItem()}
+          handleCloseAddModal={handleCloseAddModal}
+          handleAddItem={handleAddItem}
         />
         <EditModal
           isShow={editModal}
-          item={items[index]}
-          closeEditModal={() => closeEditModal()}
-          editItem={() => editItem(index)}
+          item={items[itemIndex]}
+          handleCloseEditModal={handleCloseEditModal}
+          handleEditItem={handleEditItem}
         />
       </Container>
     </>

@@ -1,15 +1,25 @@
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-export default function AddModal({ isShow, closeAddModal, addItem }) {
+import type { Item } from '../types/item';
+
+interface EditModalProps {
+  isShow: boolean
+  item: Item
+  handleCloseEditModal: () => void
+  handleEditItem: () => void
+}
+
+export default function EditModal({ isShow, item, handleCloseEditModal, handleEditItem }: EditModalProps) {
   return (
     <Modal
       show={isShow}
-      onHide={closeAddModal}
+      onHide={handleCloseEditModal}
     >
       <Modal.Header closeButton>
-        <Modal.Title>項目を追加</Modal.Title>
+        <Modal.Title>項目を編集</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -17,7 +27,8 @@ export default function AddModal({ isShow, closeAddModal, addItem }) {
             <Form.Label>タイトル</Form.Label>
             <Form.Control
               type="text"
-              id="AddInputTitle"
+              id="EditInputTitle"
+              defaultValue={isShow ? item.title : ""}
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -25,7 +36,8 @@ export default function AddModal({ isShow, closeAddModal, addItem }) {
             <Form.Control
               as="textarea"
               rows={3}
-              id="AddTextareaContent"
+              id="EditTextareaContent"
+              defaultValue={isShow ? item.content: ""}
             />
           </Form.Group>
         </Form>
@@ -34,14 +46,14 @@ export default function AddModal({ isShow, closeAddModal, addItem }) {
         <Button
           className="Button"
           variant="secondary"
-          onClick={closeAddModal}
+          onClick={handleCloseEditModal}
         >
           キャンセル
         </Button>
         <Button
           className="Button"
           variant="primary"
-          onClick={addItem}
+          onClick={handleEditItem}
         >
           OK
         </Button>
