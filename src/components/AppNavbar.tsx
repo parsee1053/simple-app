@@ -1,10 +1,18 @@
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-export default function AppNavbar({ showAddModal, startSearch, search, endSearch }) {
+interface AppNavbarProps {
+  handleShowAddModal: () => void
+  handleStartSearch: (e: React.FocusEvent<HTMLInputElement>) => void
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleEndSearch: () => void
+}
+
+export default function AppNavbar({ handleShowAddModal, handleStartSearch, handleSearch, handleEndSearch }: AppNavbarProps) {
   return (
     <Navbar collapseOnSelect sticky="top" className="bg-body-secondary">
       <Container>
@@ -15,7 +23,7 @@ export default function AppNavbar({ showAddModal, startSearch, search, endSearch
             <Button
               className="Button"
               variant="primary"
-              onClick={showAddModal}
+              onClick={handleShowAddModal}
             >
               <i className="fas fa-plus me-2"></i>
               追加
@@ -25,9 +33,9 @@ export default function AppNavbar({ showAddModal, startSearch, search, endSearch
             <Form.Control
               type="text"
               placeholder="検索"
-              onFocus={startSearch}
-              onChange={search}
-              onBlur={endSearch}
+              onFocus={handleStartSearch}
+              onChange={handleSearch}
+              onBlur={handleEndSearch}
             />
           </Form>
         </Navbar.Collapse>
