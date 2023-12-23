@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
 
@@ -20,6 +20,11 @@ export default function App({ initialItems }: AppProps) {
   const [itemIndex, setItemIndex] = useState(-1);
   const [preSearchItems, setPreSearchItems] = useState<Item[]>([]);
 
+  const addTitleRef = useRef<HTMLInputElement>(null);
+  const addContentRef = useRef<HTMLTextAreaElement>(null);
+  const editTitleRef = useRef<HTMLInputElement>(null);
+  const editContentRef = useRef<HTMLTextAreaElement>(null);
+
   function handleShowAddModal() {
     setAddModal(true);
   }
@@ -30,8 +35,8 @@ export default function App({ initialItems }: AppProps) {
 
   function handleAddItem() {
     const currentItems = Array.from(items);
-    const title = (document.getElementById("AddInputTitle") as HTMLInputElement).value.trim();
-    const content = (document.getElementById("AddTextareaContent") as HTMLTextAreaElement).value.trim();
+    const title = addTitleRef.current!.value.trim();
+    const content = addContentRef.current!.value.trim();
     if (!validateItem(title, content)) {
       return;
     }
@@ -56,8 +61,8 @@ export default function App({ initialItems }: AppProps) {
 
   function handleEditItem() {
     const currentItems = Array.from(items);
-    const title = (document.getElementById("EditInputTitle") as HTMLInputElement).value.trim();
-    const content = (document.getElementById("EditTextareaContent") as HTMLTextAreaElement).value.trim();
+    const title = editTitleRef.current!.value.trim();
+    const content = editContentRef.current!.value.trim();
     if (!validateItem(title, content)) {
       return;
     }
@@ -144,12 +149,16 @@ export default function App({ initialItems }: AppProps) {
           isShow={addModal}
           handleCloseAddModal={handleCloseAddModal}
           handleAddItem={handleAddItem}
+          titleRef={addTitleRef}
+          contentRef={addContentRef}
         />
         <EditModal
           isShow={editModal}
           item={items[itemIndex]}
           handleCloseEditModal={handleCloseEditModal}
           handleEditItem={handleEditItem}
+          titleRef={editTitleRef}
+          contentRef={editContentRef}
         />
       </Container>
     </>

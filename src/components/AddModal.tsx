@@ -4,12 +4,20 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
 interface AddModalProps {
-  isShow: boolean
-  handleCloseAddModal: () => void
-  handleAddItem: () => void
+  isShow: boolean;
+  handleCloseAddModal: () => void;
+  handleAddItem: () => void;
+  titleRef: React.RefObject<HTMLInputElement>;
+  contentRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-export default function AddModal({ isShow, handleCloseAddModal, handleAddItem }: AddModalProps) {
+export default function AddModal({
+  isShow,
+  handleCloseAddModal,
+  handleAddItem,
+  titleRef,
+  contentRef,
+}: AddModalProps) {
   return (
     <Modal
       show={isShow}
@@ -24,7 +32,7 @@ export default function AddModal({ isShow, handleCloseAddModal, handleAddItem }:
             <Form.Label>タイトル</Form.Label>
             <Form.Control
               type="text"
-              id="AddInputTitle"
+              ref={titleRef}
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -32,7 +40,7 @@ export default function AddModal({ isShow, handleCloseAddModal, handleAddItem }:
             <Form.Control
               as="textarea"
               rows={3}
-              id="AddTextareaContent"
+              ref={contentRef}
             />
           </Form.Group>
         </Form>

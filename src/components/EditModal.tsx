@@ -6,13 +6,22 @@ import Modal from 'react-bootstrap/Modal';
 import type { Item } from '../types/item';
 
 interface EditModalProps {
-  isShow: boolean
-  item: Item
-  handleCloseEditModal: () => void
-  handleEditItem: () => void
+  isShow: boolean;
+  item: Item;
+  handleCloseEditModal: () => void;
+  handleEditItem: () => void;
+  titleRef: React.RefObject<HTMLInputElement>;
+  contentRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-export default function EditModal({ isShow, item, handleCloseEditModal, handleEditItem }: EditModalProps) {
+export default function EditModal({
+  isShow,
+  item,
+  handleCloseEditModal,
+  handleEditItem,
+  titleRef,
+  contentRef,
+}: EditModalProps) {
   return (
     <Modal
       show={isShow}
@@ -27,7 +36,7 @@ export default function EditModal({ isShow, item, handleCloseEditModal, handleEd
             <Form.Label>タイトル</Form.Label>
             <Form.Control
               type="text"
-              id="EditInputTitle"
+              ref={titleRef}
               defaultValue={isShow ? item.title : ""}
             />
           </Form.Group>
@@ -36,8 +45,8 @@ export default function EditModal({ isShow, item, handleCloseEditModal, handleEd
             <Form.Control
               as="textarea"
               rows={3}
-              id="EditTextareaContent"
-              defaultValue={isShow ? item.content: ""}
+              ref={contentRef}
+              defaultValue={isShow ? item.content : ""}
             />
           </Form.Group>
         </Form>
