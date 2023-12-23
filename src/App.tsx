@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
 
@@ -18,12 +18,24 @@ export default function App({ initialItems }: AppProps) {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [itemIndex, setItemIndex] = useState(-1);
-  const [preSearchItems, setPreSearchItems] = useState<Item[]>([]);
+  const [preSearchItems, setPreSearchItems] = useState<Item[]>(initialItems);
+  const [searchValue, setSearchValue] = useState('');
 
   const addTitleRef = useRef<HTMLInputElement>(null);
   const addContentRef = useRef<HTMLTextAreaElement>(null);
   const editTitleRef = useRef<HTMLInputElement>(null);
   const editContentRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (!searchValue) {
+      setItems(preSearchItems);
+      return;
+    }
+    const filterItems = preSearchItems.filter(item =>
+      item.title.includes(searchValue) || item.content.includes(searchValue)
+    );
+    setItems(filterItems);
+  }, [searchValue, preSearchItems]);
 
   function handleShowAddModal() {
     setAddModal(true);
@@ -87,28 +99,15 @@ export default function App({ initialItems }: AppProps) {
 
   function handleStartSearch(e: React.FocusEvent<HTMLInputElement>) {
     setPreSearchItems(items);
-    if (e.target.value.length > 0) {
-      handleSearch(e);
-    }
+    setSearchValue(e.target.value.trim());
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value.trim();
-    if (!value) {
-      handleEndSearch();
-      return;
-    }
-    const filterItems = preSearchItems.filter((item) => {
-      if (item.title.indexOf(value) > -1 || item.content.indexOf(value) > -1) {
-        return true;
-      }
-      return false;
-    });
-    setItems(filterItems);
+    setSearchValue(e.target.value.trim());
   }
 
   function handleEndSearch() {
-    setItems(preSearchItems);
+    setSearchValue('');
   }
 
   function validateItem(title: string, content: string) {
